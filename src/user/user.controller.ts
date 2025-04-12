@@ -11,15 +11,11 @@ export class UserController {
 
   @Get()
   getUsers(): any {
-    // const db = this.configService.get<string>(ConfigEnum.DB);
-    // const dbHost = this.configService.get<string>(ConfigEnum.DB_HOST);
-    // const url = this.configService.get<string>('DB_URL');
-    // console.log('DB Host:', dbHost);
-    // console.log('DB:', db);
-    // console.log('DB URL:', url);
+    // const data = this.configService.get<string>('db');
+    // console.log('DB:', data);
 
-    const data = this.configService.get<string>('db');
-    console.log('DB:', data);
+    const port = this.configService.get<number>('DB_PORT');
+    console.log('DB_PORT:', port);
     return this.userService.getUsers();
   }
 }
