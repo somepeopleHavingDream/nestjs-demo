@@ -1,7 +1,6 @@
 import { Controller, Get } from '@nestjs/common';
-import { UserService } from './user.service';
 import { ConfigService } from '@nestjs/config';
-import { ConfigEnum } from 'src/enum/config.enum';
+import { UserService } from './user.service';
 
 @Controller('user')
 export class UserController {
@@ -12,12 +11,15 @@ export class UserController {
 
   @Get()
   getUsers(): any {
-    const db = this.configService.get<string>(ConfigEnum.DB);
-    const dbHost = this.configService.get<string>(ConfigEnum.DB_HOST);
-    const url = this.configService.get<string>('DB_URL');
-    console.log('DB Host:', dbHost);
-    console.log('DB:', db);
-    console.log('DB URL:', url);
+    // const db = this.configService.get<string>(ConfigEnum.DB);
+    // const dbHost = this.configService.get<string>(ConfigEnum.DB_HOST);
+    // const url = this.configService.get<string>('DB_URL');
+    // console.log('DB Host:', dbHost);
+    // console.log('DB:', db);
+    // console.log('DB URL:', url);
+
+    const data = this.configService.get<string>('db');
+    console.log('DB:', data);
     return this.userService.getUsers();
   }
 }

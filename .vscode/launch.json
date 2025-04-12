@@ -9,7 +9,8 @@
       "request": "launch",
       "runtimeArgs": [
         "run-script",
-        "start:debug"
+        // "start:debug",
+        "start"
       ],
       "runtimeExecutable": "npm",
       "runtimeVersion": "22.14.0",

@@ -1,0 +1,10 @@
+{
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "explicit",
+    // "source.fixAll.eslint": "explicit"
+  },
+  // 限制标签栏显示的标签页数量（超出部分会被隐藏）
+  "workbench.editor.limit.enabled": true,
+  // 启用多行标签栏
+  "workbench.editor.wrapTabs": true,
+}
