@@ -1,10 +1,8 @@
-import { Module } from '@nestjs/common';
+import { Global, Logger, Module } from '@nestjs/common';
 import { ConfigModule, ConfigService } from '@nestjs/config';
 import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
 import * as Joi from 'joi';
-import { LoggerModule } from 'nestjs-pino';
-import { join } from 'path';
 import { ConfigEnum } from './enum/config.enum';
 import { Logs } from './module/logs/logs.entity';
 import { Roles } from './module/roles/roles.entity';
@@ -17,6 +15,7 @@ const envFilePath =
     ? '.env.production'
     : '.env.development';
 
+@Global()
 @Module({
   imports: [
     UserModule,
@@ -54,34 +53,35 @@ const envFilePath =
           // logging: process.env.NODE_ENV !== 'production',
         }) as TypeOrmModuleOptions,
     }),
-    LoggerModule.forRoot({
-      pinoHttp: {
-        transport: {
-          targets: [
-            process.env.NODE_ENV === 'development'
-              ? {
-                  level: 'info',
-                  target: 'pino-pretty',
-                  options: {
-                    colorize: true,
-                  },
-                }
-              : {
-                  level: 'info',
-                  target: 'pino-roll',
-                  options: {
-                    file: join('logs', 'log.txt'),
-                    frequency: 'daily',
-                    size: '10M',
-                    mkdir: true,
-                  },
-                },
-          ],
-        },
-      },
-    }),
+    // LoggerModule.forRoot({
+    //   pinoHttp: {
+    //     transport: {
+    //       targets: [
+    //         process.env.NODE_ENV === 'development'
+    //           ? {
+    //               level: 'info',
+    //               target: 'pino-pretty',
+    //               options: {
+    //                 colorize: true,
+    //               },
+    //             }
+    //           : {
+    //               level: 'info',
+    //               target: 'pino-roll',
+    //               options: {
+    //                 file: join('logs', 'log.txt'),
+    //                 frequency: 'daily',
+    //                 size: '10M',
+    //                 mkdir: true,
+    //               },
+    //             },
+    //       ],
+    //     },
+    //   },
+    // }),
   ],
   controllers: [],
-  providers: [],
+  providers: [Logger],
+  exports: [Logger],
 })
 export class AppModule {}
