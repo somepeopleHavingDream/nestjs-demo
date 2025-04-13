@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-import * as Joi from '@hapi/joi';
 import { Module } from '@nestjs/common';
-import { ConfigModule } from '@nestjs/config';
+import { ConfigModule, ConfigService } from '@nestjs/config';
+import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
+import * as Joi from 'joi';
+import { ConfigEnum } from './enum/config.enum';
 import { UserModule } from './user/user.module';
 
 const envFilePath =
@@ -25,9 +24,29 @@ const envFilePath =
           .default('development')
           .required(),
         DB_PORT: Joi.number().default(3306).required(),
-        DB_URL: Joi.string().domain().required(),
         DB_HOST: Joi.string().ip().required(),
+        DB_TYPE: Joi.string().valid('mysql').required(),
+        DB_DATABASE: Joi.string().required(),
+        DB_USERNAME: Joi.string().required(),
+        DB_PASSWORD: Joi.string().required(),
+        DB_SYNC: Joi.boolean().default(false).required(),
       }),
+    }),
+    TypeOrmModule.forRootAsync({
+      imports: [ConfigModule],
+      inject: [ConfigService],
+      useFactory: (configService: ConfigService) =>
+        ({
+          type: configService.get<string>(ConfigEnum.DB_TYPE),
+          host: configService.get<string>(ConfigEnum.DB_HOST),
+          port: configService.get<number>(ConfigEnum.DB_PORT),
+          username: configService.get<string>(ConfigEnum.DB_USERNAME),
+          password: configService.get<string>(ConfigEnum.DB_PASSWORD),
+          database: configService.get<string>(ConfigEnum.DB_DATABASE),
+          entities: [],
+          synchronize: configService.get<boolean>(ConfigEnum.DB_SYNC),
+          logging: ['error'],
+        }) as TypeOrmModuleOptions,
     }),
   ],
   controllers: [],
