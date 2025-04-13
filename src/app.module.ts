@@ -49,7 +49,7 @@ const envFilePath =
           database: configService.get<string>(ConfigEnum.DB_DATABASE),
           entities: [User, Profile, Roles, Logs],
           synchronize: configService.get<boolean>(ConfigEnum.DB_SYNC),
-          logging: process.env.NODE_ENV !== 'production',
+          // logging: process.env.NODE_ENV !== 'production',
         }) as TypeOrmModuleOptions,
     }),
   ],
