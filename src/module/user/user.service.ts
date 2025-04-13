@@ -18,6 +18,15 @@ export class UserService {
     return this.userRepository.findOne({ where: { username } });
   }
 
+  findProfile(id: number) {
+    return this.userRepository.findOne({
+      where: { id },
+      relations: {
+        profile: true,
+      },
+    });
+  }
+
   async create(user: User) {
     const userTmp = this.userRepository.create(user);
     return this.userRepository.save(userTmp);

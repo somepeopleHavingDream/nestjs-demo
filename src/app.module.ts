@@ -4,11 +4,11 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
 import * as Joi from 'joi';
 import { ConfigEnum } from './enum/config.enum';
-import { User } from './user/user.entity';
-import { UserModule } from './user/user.module';
-import { Profile } from './user/profile.entity';
-import { Roles } from './roles/roles.entity';
-import { Logs } from './logs/logs.entity';
+import { Profile } from './module/user/profile.entity';
+import { User } from './module/user/user.entity';
+import { UserModule } from './module/user/user.module';
+import { Logs } from './module/logs/logs.entity';
+import { Roles } from './module/roles/roles.entity';
 
 const envFilePath =
   process.env.NODE_ENV === 'production'

@@ -23,4 +23,9 @@ export class UserController {
     } as User;
     return this.userService.create(user);
   }
+
+  @Get('/profile')
+  getUserProfile(): any {
+    return this.userService.findProfile(1);
+  }
 }
