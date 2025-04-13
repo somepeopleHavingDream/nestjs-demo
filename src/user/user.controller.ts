@@ -1,5 +1,6 @@
-import { Controller, Get } from '@nestjs/common';
+import { Controller, Get, Post } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { User } from './user.entity';
 import { UserService } from './user.service';
 
 @Controller('user')
@@ -11,11 +12,15 @@ export class UserController {
 
   @Get()
   getUsers(): any {
-    // const data = this.configService.get<string>('db');
-    // console.log('DB:', data);
+    return this.userService.findAll();
+  }
 
-    const port = this.configService.get<number>('DB_PORT');
-    console.log('DB_PORT:', port);
-    return this.userService.getUsers();
+  @Post()
+  addUser(): any {
+    const user = {
+      username: 'test',
+      password: 'test',
+    } as User;
+    return this.userService.create(user);
   }
 }
