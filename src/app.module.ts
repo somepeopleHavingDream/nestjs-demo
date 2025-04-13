@@ -4,7 +4,11 @@ import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
 import * as Joi from 'joi';
 import { ConfigEnum } from './enum/config.enum';
+import { User } from './user/user.entity';
 import { UserModule } from './user/user.module';
+import { Profile } from './user/profile.entity';
+import { Roles } from './roles/roles.entity';
+import { Logs } from './logs/logs.entity';
 
 const envFilePath =
   process.env.NODE_ENV === 'production'
@@ -43,7 +47,7 @@ const envFilePath =
           username: configService.get<string>(ConfigEnum.DB_USERNAME),
           password: configService.get<string>(ConfigEnum.DB_PASSWORD),
           database: configService.get<string>(ConfigEnum.DB_DATABASE),
-          entities: [],
+          entities: [User, Profile, Roles, Logs],
           synchronize: configService.get<boolean>(ConfigEnum.DB_SYNC),
           logging: ['error'],
         }) as TypeOrmModuleOptions,
