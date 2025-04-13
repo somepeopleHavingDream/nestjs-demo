@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-unsafe-member-access */
+/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Controller, Get, Post } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { User } from './user.entity';
@@ -27,5 +29,14 @@ export class UserController {
   @Get('/profile')
   getUserProfile(): any {
     return this.userService.findProfile(1);
+  }
+
+  @Get('/logsByGroup')
+  async getLogsByGroup(): Promise<any> {
+    const res = await this.userService.findLogsByGroup(1);
+    return res.map((o) => ({
+      result: o.result,
+      count: o.count,
+    }));
   }
 }

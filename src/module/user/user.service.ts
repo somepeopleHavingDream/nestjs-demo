@@ -1,6 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
+import { Logs } from '../logs/logs.entity';
 import { User } from './user.entity';
 
 @Injectable()
@@ -8,6 +9,8 @@ export class UserService {
   constructor(
     @InjectRepository(User)
     private readonly userRepository: Repository<User>,
+    @InjectRepository(Logs)
+    private readonly logsRepository: Repository<Logs>,
   ) {}
 
   findAll() {
@@ -38,5 +41,17 @@ export class UserService {
 
   remove(id: number) {
     return this.userRepository.delete(id);
+  }
+
+  findLogsByGroup(id: number) {
+    return this.logsRepository
+      .createQueryBuilder('logs')
+      .select('logs.result', 'result')
+      .addSelect('COUNT("logs.result")', 'count')
+      .leftJoinAndSelect('logs.user', 'user')
+      .where('user.id = :id', { id })
+      .groupBy('logs.result')
+      .orderBy('result', 'DESC')
+      .getRawMany();
   }
 }
