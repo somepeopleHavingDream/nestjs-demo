@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
 import { Controller, Get, Post } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { Logger } from 'nestjs-pino';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 
@@ -10,10 +9,12 @@ export class UserController {
   constructor(
     private userService: UserService,
     private configService: ConfigService,
+    private logger: Logger,
   ) {}
 
   @Get()
   getUsers(): any {
+    // this.logger.log('UserController getUsers');
     return this.userService.findAll();
   }
 
