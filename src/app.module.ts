@@ -1,15 +1,11 @@
 import { Global, Logger, Module } from '@nestjs/common';
-import { ConfigModule, ConfigService } from '@nestjs/config';
-import { TypeOrmModule, TypeOrmModuleOptions } from '@nestjs/typeorm';
+import { ConfigModule } from '@nestjs/config';
+import { TypeOrmModule } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
 import * as Joi from 'joi';
-import { ConfigEnum } from './enum/config.enum';
-import { Logs } from './module/logs/logs.entity';
-import { Roles } from './module/roles/roles.entity';
-import { Profile } from './module/user/profile.entity';
-import { User } from './module/user/user.entity';
-import { UserModule } from './module/user/user.module';
+import { connectionParams } from 'ormconfig';
 import { LogsModule } from './module/logs/logs.module';
+import { UserModule } from './module/user/user.module';
 
 const envFilePath =
   process.env.NODE_ENV === 'production'
@@ -38,22 +34,7 @@ const envFilePath =
         DB_SYNC: Joi.boolean().default(false).required(),
       }),
     }),
-    TypeOrmModule.forRootAsync({
-      imports: [ConfigModule],
-      inject: [ConfigService],
-      useFactory: (configService: ConfigService) =>
-        ({
-          type: configService.get<string>(ConfigEnum.DB_TYPE),
-          host: configService.get<string>(ConfigEnum.DB_HOST),
-          port: configService.get<number>(ConfigEnum.DB_PORT),
-          username: configService.get<string>(ConfigEnum.DB_USERNAME),
-          password: configService.get<string>(ConfigEnum.DB_PASSWORD),
-          database: configService.get<string>(ConfigEnum.DB_DATABASE),
-          entities: [User, Profile, Roles, Logs],
-          synchronize: configService.get<boolean>(ConfigEnum.DB_SYNC),
-          // logging: process.env.NODE_ENV !== 'production',
-        }) as TypeOrmModuleOptions,
-    }),
+    TypeOrmModule.forRoot(connectionParams),
     LogsModule,
   ],
   controllers: [],
