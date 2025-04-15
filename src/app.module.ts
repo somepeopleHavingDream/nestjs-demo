@@ -9,6 +9,7 @@ import { Roles } from './module/roles/roles.entity';
 import { Profile } from './module/user/profile.entity';
 import { User } from './module/user/user.entity';
 import { UserModule } from './module/user/user.module';
+import { LogsModule } from './module/logs/logs.module';
 
 const envFilePath =
   process.env.NODE_ENV === 'production'
@@ -53,32 +54,7 @@ const envFilePath =
           // logging: process.env.NODE_ENV !== 'production',
         }) as TypeOrmModuleOptions,
     }),
-    // LoggerModule.forRoot({
-    //   pinoHttp: {
-    //     transport: {
-    //       targets: [
-    //         process.env.NODE_ENV === 'development'
-    //           ? {
-    //               level: 'info',
-    //               target: 'pino-pretty',
-    //               options: {
-    //                 colorize: true,
-    //               },
-    //             }
-    //           : {
-    //               level: 'info',
-    //               target: 'pino-roll',
-    //               options: {
-    //                 file: join('logs', 'log.txt'),
-    //                 frequency: 'daily',
-    //                 size: '10M',
-    //                 mkdir: true,
-    //               },
-    //             },
-    //       ],
-    //     },
-    //   },
-    // }),
+    LogsModule,
   ],
   controllers: [],
   providers: [Logger],

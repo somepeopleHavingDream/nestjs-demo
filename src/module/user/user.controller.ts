@@ -1,5 +1,6 @@
-import { Controller, Get, Logger, Post } from '@nestjs/common';
+import { Controller, Get, Inject, LoggerService, Post } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
+import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { User } from './user.entity';
 import { UserService } from './user.service';
 
@@ -8,8 +9,9 @@ export class UserController {
   constructor(
     private userService: UserService,
     private configService: ConfigService,
-    // private logger: Logger,
-    private readonly logger: Logger,
+    // private readonly logger: Logger,
+    @Inject(WINSTON_MODULE_NEST_PROVIDER)
+    private readonly logger: LoggerService,
   ) {}
 
   @Get()
