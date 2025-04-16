@@ -19,23 +19,52 @@ export class UserService {
     const take = limit || 10;
     const skip = ((page || 1) - 1) * take;
 
-    return this.userRepository.find({
-      relations: {
-        profile: true,
-        roles: true,
-      },
-      where: {
+    // return this.userRepository.find({
+    //   relations: {
+    //     profile: true,
+    //     roles: true,
+    //   },
+    //   where: {
+    //     username,
+    //     profile: {
+    //       gender,
+    //     },
+    //     roles: {
+    //       id: role,
+    //     },
+    //   },
+    //   take,
+    //   skip,
+    // });
+
+    const queryBuilder = this.userRepository
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.profile', 'profile')
+      .leftJoinAndSelect('user.roles', 'roles');
+    // 后面的 .where 会替换前面的 .where
+    if (username) {
+      queryBuilder.where('user.username = :username', {
         username,
-        profile: {
-          gender,
-        },
-        roles: {
-          id: role,
-        },
-      },
-      take,
-      skip,
-    });
+      });
+    } else {
+      queryBuilder.where('user.username IS NOT NULL');
+    }
+    if (gender) {
+      queryBuilder.where('profile.gender = :gender', {
+        gender,
+      });
+    } else {
+      queryBuilder.where('profile.gender IS NOT NULL');
+    }
+    if (role) {
+      queryBuilder.where('roles.id = :role', {
+        role,
+      });
+    } else {
+      queryBuilder.where('roles.id IS NOT NULL');
+    }
+
+    return queryBuilder.getMany();
   }
 
   find(username: string) {
