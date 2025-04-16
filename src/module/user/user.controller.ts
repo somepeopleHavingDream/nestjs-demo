@@ -1,4 +1,14 @@
-import { Controller, Get, Inject, LoggerService, Post } from '@nestjs/common';
+import {
+  Body,
+  Controller,
+  Delete,
+  Get,
+  Inject,
+  LoggerService,
+  Param,
+  Patch,
+  Post,
+} from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { User } from './user.entity';
@@ -20,17 +30,24 @@ export class UserController {
 
   @Get()
   getUsers(): any {
-    this.logger.log('UserController getUsers');
     return this.userService.findAll();
   }
 
   @Post()
-  addUser(): any {
-    const user = {
-      username: 'test',
-      password: 'test',
-    } as User;
+  addUser(@Body() dto: any): any {
+    const user = dto as User;
     return this.userService.create(user);
+  }
+
+  @Patch('/:id')
+  updateUser(@Body() dto: any, @Param('id') id: number): any {
+    const user = dto as User;
+    return this.userService.update(id, user);
+  }
+
+  @Delete('/:id')
+  deleteUser(@Param('id') id: number): any {
+    return this.userService.remove(id);
   }
 
   @Get('/profile')
