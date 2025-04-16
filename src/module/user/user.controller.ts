@@ -8,11 +8,13 @@ import {
   Param,
   Patch,
   Post,
+  Query,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { User } from './user.entity';
 import { UserService } from './user.service';
+import { getUserDto } from './dto/get-user.dto';
 
 @Controller('user')
 export class UserController {
@@ -29,8 +31,11 @@ export class UserController {
   }
 
   @Get()
-  getUsers(): any {
-    return this.userService.findAll();
+  getUsers(@Query() query: getUserDto): any {
+    // page - 页码， limit - 每页条数， condition - 查询条件（ username,role,gender ）， sort - 排序
+    // 前端传递的 Query 参数全是 string 类型，需要转换成 number 类型
+    console.log('🚀 ~ UserController ~ getUsers ~ query:', query);
+    return this.userService.findAll(query);
   }
 
   @Post()
