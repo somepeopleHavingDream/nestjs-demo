@@ -32,6 +32,7 @@ export class User {
 
   @ManyToMany(() => Roles, (roles) => roles.users, {
     createForeignKeyConstraints: false,
+    cascade: ['insert'],
   })
   @JoinTable({ name: 'users_roles' })
   roles: Roles[];

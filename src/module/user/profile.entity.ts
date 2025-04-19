@@ -21,7 +21,10 @@ export class Profile {
   @Column()
   address: string;
 
-  @OneToOne(() => User, { createForeignKeyConstraints: false })
+  @OneToOne(() => User, {
+    createForeignKeyConstraints: false,
+    onDelete: 'CASCADE',
+  })
   @JoinColumn()
   user: User;
 }

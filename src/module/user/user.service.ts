@@ -1,8 +1,9 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { conditionUtils } from 'src/utils/db.helper';
-import { Repository } from 'typeorm';
+import { In, Repository } from 'typeorm';
 import { Logs } from '../logs/logs.entity';
+import { Roles } from '../roles/roles.entity';
 import { getUserDto } from './dto/get-user.dto';
 import { User } from './user.entity';
 
@@ -13,6 +14,8 @@ export class UserService {
     private readonly userRepository: Repository<User>,
     @InjectRepository(Logs)
     private readonly logsRepository: Repository<Logs>,
+    @InjectRepository(Roles)
+    private readonly rolesRepository: Repository<Roles>,
   ) {}
 
   findAll(query: getUserDto) {
@@ -71,6 +74,15 @@ export class UserService {
   }
 
   async create(user: User) {
+    if (user.roles instanceof Array && typeof user.roles[0] === 'number') {
+      // 查询所有的用户角色
+      user.roles = await this.rolesRepository.find({
+        where: {
+          id: In(user.roles),
+        },
+      });
+    }
+
     const userTmp = this.userRepository.create(user);
     const res = await this.userRepository.save(userTmp);
     return res;
