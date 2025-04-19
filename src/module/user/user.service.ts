@@ -55,6 +55,12 @@ export class UserService {
     return this.userRepository.findOne({ where: { username } });
   }
 
+  findOne(id: number) {
+    return this.userRepository.findOne({
+      where: { id },
+    });
+  }
+
   findProfile(id: number) {
     return this.userRepository.findOne({
       where: { id },
@@ -84,8 +90,12 @@ export class UserService {
     return this.userRepository.update(id, user);
   }
 
-  remove(id: number) {
-    return this.userRepository.delete(id);
+  async remove(id: number) {
+    // return this.userRepository.delete(id);
+    const user = await this.findOne(id);
+    if (user) {
+      return this.userRepository.remove(user);
+    }
   }
 
   findLogsByGroup(id: number) {
