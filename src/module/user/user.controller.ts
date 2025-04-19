@@ -3,12 +3,14 @@ import {
   Controller,
   Delete,
   Get,
+  Headers,
   Inject,
   LoggerService,
   Param,
   Patch,
   Post,
   Query,
+  UnauthorizedException,
   UseFilters,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
@@ -48,7 +50,17 @@ export class UserController {
   }
 
   @Patch('/:id')
-  updateUser(@Body() dto: any, @Param('id') id: number): any {
+  updateUser(
+    @Body() dto: any,
+    @Param('id') id: number,
+    @Headers('Authorization') headers: any,
+  ): any {
+    console.log('🚀 ~ UserController ~ headers:', headers);
+
+    if (id !== headers) {
+      throw new UnauthorizedException();
+    }
+
     const user = dto as User;
     return this.userService.update(id, user);
   }
