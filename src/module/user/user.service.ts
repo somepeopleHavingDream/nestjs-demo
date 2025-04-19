@@ -66,7 +66,18 @@ export class UserService {
 
   async create(user: User) {
     const userTmp = this.userRepository.create(user);
-    return this.userRepository.save(userTmp);
+    const res = await this.userRepository.save(userTmp);
+    return res;
+    // try {
+    //   const res = await this.userRepository.save(userTmp);
+    //   return res;
+    // } catch (error) {
+    //   console.log('🚀 ~ create ~ error:', error);
+
+    //   if (error?.errno && error?.errno === 1062) {
+    //     throw new HttpException(error.sqlMessage, 500);
+    //   }
+    // }
   }
 
   async update(id: number, user: Partial<User>) {

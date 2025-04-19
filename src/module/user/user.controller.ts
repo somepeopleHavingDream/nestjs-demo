@@ -9,14 +9,17 @@ import {
   Patch,
   Post,
   Query,
+  UseFilters,
 } from '@nestjs/common';
 import { ConfigService } from '@nestjs/config';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
+import { TypeormFilter } from 'src/filters/typeorm.filter';
+import { getUserDto } from './dto/get-user.dto';
 import { User } from './user.entity';
 import { UserService } from './user.service';
-import { getUserDto } from './dto/get-user.dto';
 
 @Controller('user')
+@UseFilters(new TypeormFilter())
 export class UserController {
   constructor(
     private userService: UserService,
