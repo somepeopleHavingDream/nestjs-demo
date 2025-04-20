@@ -7,6 +7,7 @@ import {
   Inject,
   LoggerService,
   Param,
+  ParseIntPipe,
   Patch,
   Post,
   Query,
@@ -19,6 +20,8 @@ import { TypeormFilter } from 'src/filters/typeorm.filter';
 import { getUserDto } from './dto/get-user.dto';
 import { User } from './user.entity';
 import { UserService } from './user.service';
+import { CreateUserPipe } from './pipes/create-user.pipe';
+import { CreateUserDto } from './dto/create-user.dto';
 
 @Controller('user')
 @UseFilters(new TypeormFilter())
@@ -29,6 +32,12 @@ export class UserController {
     @Inject(WINSTON_MODULE_NEST_PROVIDER)
     private readonly logger: LoggerService,
   ) {}
+
+  @Get('/profile')
+  getUserProfile(@Query('id', ParseIntPipe) id: any): any {
+    console.log('🚀 ~ UserController ~ getUserProfile ~ id:', typeof id);
+    return this.userService.findProfile(id);
+  }
 
   @Get('/:id')
   getUser(): any {
@@ -44,7 +53,7 @@ export class UserController {
   }
 
   @Post()
-  addUser(@Body() dto: any): any {
+  addUser(@Body(CreateUserPipe) dto: CreateUserDto): any {
     const user = dto as User;
     return this.userService.create(user);
   }
@@ -68,11 +77,6 @@ export class UserController {
   @Delete('/:id')
   removeUser(@Param('id') id: number): any {
     return this.userService.remove(id);
-  }
-
-  @Get('/profile')
-  getUserProfile(): any {
-    return this.userService.findProfile(1);
   }
 
   @Get('/logsByGroup')
