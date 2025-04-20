@@ -73,7 +73,16 @@ export class UserService {
     });
   }
 
-  async create(user: User) {
+  async create(user: Partial<User>) {
+    if (!user.roles) {
+      const role = await this.rolesRepository.findOne({
+        where: { id: 2 },
+      });
+      if (role) {
+        user.roles = [role];
+      }
+    }
+
     if (user.roles instanceof Array && typeof user.roles[0] === 'number') {
       // 查询所有的用户角色
       user.roles = await this.rolesRepository.find({
