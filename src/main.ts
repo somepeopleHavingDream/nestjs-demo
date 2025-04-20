@@ -1,7 +1,7 @@
 import { HttpAdapterHost, NestFactory } from '@nestjs/core';
 import { AppModule } from './app.module';
 // import * as winston from 'winston';
-import { Logger } from '@nestjs/common';
+import { Logger, ValidationPipe } from '@nestjs/common';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import 'winston-daily-rotate-file';
 import { AllExceptionFilter } from './filters/all-exception.filter';
@@ -20,6 +20,14 @@ async function bootstrap() {
   // 全局的 Filter 只能有一个
   const logger = new Logger();
   app.useGlobalFilters(new AllExceptionFilter(logger, httpAdapter));
+
+  // 全局拦截器
+  app.useGlobalPipes(
+    new ValidationPipe({
+      // 去除在类上不存在的字段
+      // whitelist: true,
+    }),
+  );
 
   await app.listen(process.env.PORT ?? 3000);
 }
