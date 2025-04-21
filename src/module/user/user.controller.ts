@@ -26,6 +26,7 @@ import { getUserDto } from './dto/get-user.dto';
 import { CreateUserPipe } from './pipes/create-user.pipe';
 import { User } from './user.entity';
 import { UserService } from './user.service';
+import { JwtGuard } from 'src/guards/jwt.guard';
 
 @Controller('user')
 @UseFilters(new TypeormFilter())
@@ -38,7 +39,7 @@ export class UserController {
   ) {}
 
   @Get('/profile')
-  @UseGuards(AuthGuard('jwt'))
+  @UseGuards(JwtGuard)
   getUserProfile(@Query('id', ParseIntPipe) id: any, @Req() req): any {
     console.log('🚀 ~ UserController ~ getUserProfile ~ req:', req.user);
     return this.userService.findProfile(id);
