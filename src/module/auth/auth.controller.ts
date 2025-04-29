@@ -1,17 +1,18 @@
 import {
   Body,
+  ClassSerializerInterceptor,
   Controller,
   Post,
   UseFilters,
   UseInterceptors,
 } from '@nestjs/common';
 import { TypeormFilter } from 'src/filters/typeorm.filter';
-import { SerializeInterceptor } from 'src/interceptors/serialize.interceptor';
 import { AuthService } from './auth.service';
 import { SigninUserDto } from './dto/signin-user.dto';
 
 @Controller('auth')
 @UseFilters(new TypeormFilter())
+@UseInterceptors(ClassSerializerInterceptor)
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
 
@@ -25,7 +26,7 @@ export class AuthController {
   }
 
   @Post('signup')
-  @UseInterceptors(new SerializeInterceptor())
+  // @UseInterceptors(new SerializeInterceptor())
   signup(@Body() dto: SigninUserDto) {
     const { username, password } = dto;
 

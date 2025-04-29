@@ -5,6 +5,7 @@ import { LogEnum } from 'src/enum/config.enum';
 import winston from 'winston';
 import DailyRotateFile from 'winston-daily-rotate-file';
 import { Console } from 'winston/lib/winston/transports';
+import { LogsController } from './logs.controller';
 
 function createDailyRotateTransport(level: string, filename: string) {
   return new DailyRotateFile({
@@ -49,5 +50,6 @@ function createDailyRotateTransport(level: string, filename: string) {
       },
     }),
   ],
+  controllers: [LogsController],
 })
 export class LogsModule {}
