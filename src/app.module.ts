@@ -7,6 +7,7 @@ import { connectionParams } from 'ormconfig';
 import { LogsModule } from './module/logs/logs.module';
 import { UserModule } from './module/user/user.module';
 import { AuthModule } from './module/auth/auth.module';
+import { RolesModule } from './module/roles/roles.module';
 
 const envFilePath =
   process.env.NODE_ENV === 'production'
@@ -42,6 +43,7 @@ const envFilePath =
     TypeOrmModule.forRoot(connectionParams),
     LogsModule,
     AuthModule,
+    RolesModule,
   ],
   controllers: [],
   providers: [Logger],
