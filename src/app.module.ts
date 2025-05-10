@@ -25,7 +25,7 @@ const envFilePath =
       load: [() => dotenv.config({ path: '.env' })],
       validationSchema: Joi.object({
         NODE_ENV: Joi.string()
-          .valid('development', 'production')
+          .valid('development', 'production', 'test')
           .default('development'),
         DB_PORT: Joi.number().default(3306),
         DB_HOST: Joi.alternatives().try(

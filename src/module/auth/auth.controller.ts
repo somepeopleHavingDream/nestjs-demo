@@ -2,6 +2,7 @@ import {
   Body,
   ClassSerializerInterceptor,
   Controller,
+  Get,
   Post,
   UseFilters,
   UseInterceptors,
@@ -15,6 +16,11 @@ import { SigninUserDto } from './dto/signin-user.dto';
 @UseInterceptors(ClassSerializerInterceptor)
 export class AuthController {
   constructor(private readonly authService: AuthService) {}
+
+  @Get()
+  getHello(): string {
+    return 'Hello World!';
+  }
 
   @Post('signin')
   async signin(@Body() dto: SigninUserDto) {
