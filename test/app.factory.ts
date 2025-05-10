@@ -21,6 +21,7 @@ export class AppFactory {
 
     const app = moduleFixture.createNestApplication();
     setupApp(app);
+    await app.listen(process.env.PORT ?? 3000);
     await app.init();
     return new AppFactory(app);
   }
