@@ -32,6 +32,17 @@ export class AppFactory {
       await datasource.initialize();
     }
     this.connection = datasource;
+
+    // // Method2: 写入SQL语句
+    // const queryRunner = this.connection.createQueryRunner();
+    // const sql =
+    //   readFileSync(join(__dirname, '../src/migrations/init.sql'))
+    //     .toString()
+    //     .replace(/\r?\n|\r/g, '')
+    //     ?.split(';') || [];
+    // for (let i = 0; i < sql.length; i++) {
+    //   await queryRunner.query(sql[i]);
+    // }
   }
 
   // 清除数据库数据，避免测试数据污染
