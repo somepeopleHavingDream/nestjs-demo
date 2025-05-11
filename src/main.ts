@@ -6,10 +6,8 @@ import { setupApp } from './setup';
 
 async function bootstrap() {
   const app = await NestFactory.create(AppModule, {
-    // 关闭整个 nestjs 日志
-    // logger: false,
-    // logger: ['error', 'warn'],
-    // logger,
+    // 允许跨域
+    cors: true,
   });
 
   setupApp(app);

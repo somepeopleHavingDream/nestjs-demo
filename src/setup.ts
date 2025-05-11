@@ -1,8 +1,10 @@
+import { INestApplication, ValidationPipe } from '@nestjs/common';
 import { HttpAdapterHost } from '@nestjs/core';
+import rateLimit from 'express-rate-limit';
+import helmet from 'helmet';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
 import { Logger } from 'winston';
 import { AllExceptionFilter } from './filters/all-exception.filter';
-import { INestApplication, ValidationPipe } from '@nestjs/common';
 
 export const setupApp = (app: INestApplication) => {
   app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
@@ -18,6 +20,19 @@ export const setupApp = (app: INestApplication) => {
     new ValidationPipe({
       // 去除在类上不存在的字段
       whitelist: true,
+    }),
+  );
+
+  // helmet 头部安全
+  app.use(helmet());
+
+  // rateLimit 限流
+  app.use(
+    rateLimit({
+      // 1 minutes
+      windowMs: 1 * 60 * 1000,
+      // limit each ip to 300 request per windowMs
+      max: 300,
     }),
   );
 };
