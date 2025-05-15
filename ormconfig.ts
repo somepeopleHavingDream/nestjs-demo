@@ -2,7 +2,6 @@ import { TypeOrmModuleOptions } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
 import * as fs from 'fs';
 import { ConfigEnum } from 'src/enum/config.enum';
-import { DataSource, DataSourceOptions } from 'typeorm';
 
 // 通过环境变量读取不同的 .env 文件
 function getEnv(env: string): Record<string, unknown> {
@@ -37,9 +36,3 @@ function buildConnectionOptions() {
 }
 
 export const connectionParams = buildConnectionOptions();
-
-export default new DataSource({
-  ...connectionParams,
-  migrations: ['src/migrations/**'],
-  subscribers: [],
-} as DataSourceOptions);
