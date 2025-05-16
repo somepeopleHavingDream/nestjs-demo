@@ -1,8 +1,4 @@
-# Use root/example as user/password credentials
-# version: '3.1'
-
 services:
-
   db:
     image: mysql
     restart: always
@@ -10,12 +6,11 @@ services:
       MYSQL_ROOT_PASSWORD: 123456
     ports:
       - 3306:3306
-
-  db1:
-    image: mysql
+  mongodb:
+    image: mongo
     restart: always
-    environment:
-      MYSQL_ROOT_PASSWORD: 123456
-      MYSQL_DATABASE: testdb1
     ports:
-      - 3307:3306
+      - 27017:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 123456

@@ -1,10 +1,12 @@
 import { Global, Logger, Module } from '@nestjs/common';
 import { ConfigModule } from '@nestjs/config';
+import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
 import * as Joi from 'joi';
 import { connectionParams } from 'ormconfig';
 import { AuthModule } from './module/auth/auth.module';
+import { CatsModule } from './module/cats/cats.module';
 import { LogsModule } from './module/logs/logs.module';
 import { MenusModule } from './module/menus/menus.module';
 import { RolesModule } from './module/roles/roles.module';
@@ -46,6 +48,10 @@ const envFilePath =
     AuthModule,
     RolesModule,
     MenusModule,
+    MongooseModule.forRoot(
+      'mongodb://root:123456@localhost:27017/nest?authSource=admin',
+    ),
+    CatsModule,
   ],
   controllers: [],
   providers: [Logger],
