@@ -1,3 +1,4 @@
+import { Exclude } from 'class-transformer';
 import {
   AfterInsert,
   AfterRemove,
@@ -12,7 +13,6 @@ import {
 import { Logs } from '../logs/logs.entity';
 import { Roles } from '../roles/roles.entity';
 import { Profile } from './profile.entity';
-import { Exclude } from 'class-transformer';
 
 @Entity()
 export class User {
