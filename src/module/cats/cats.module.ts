@@ -3,6 +3,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Cat, CatSchema } from './cat.schema';
 import { CatsController } from './cats.controller';
 import { CatsService } from './cats.service';
+import { CacheModule } from '@nestjs/cache-manager';
 
 @Module({
   imports: [
@@ -12,6 +13,7 @@ import { CatsService } from './cats.service';
         schema: CatSchema,
       },
     ]),
+    CacheModule.register(),
   ],
   controllers: [CatsController],
   providers: [CatsService],
