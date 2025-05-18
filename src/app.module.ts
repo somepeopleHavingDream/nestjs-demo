@@ -11,6 +11,8 @@ import { LogsModule } from './module/logs/logs.module';
 import { MenusModule } from './module/menus/menus.module';
 import { RolesModule } from './module/roles/roles.module';
 import { UserModule } from './module/user/user.module';
+import { ScheduleModule } from '@nestjs/schedule';
+import { TasksModule } from './module/tasks/tasks.module';
 
 const envFilePath =
   process.env.NODE_ENV === 'production'
@@ -52,6 +54,8 @@ const envFilePath =
       'mongodb://root:123456@localhost:27017/nest?authSource=admin',
     ),
     CatsModule,
+    ScheduleModule.forRoot(),
+    TasksModule,
   ],
   controllers: [],
   providers: [Logger],
