@@ -4,6 +4,7 @@ import { Cat, CatSchema } from './cat.schema';
 import { CatsController } from './cats.controller';
 import { CatsService } from './cats.service';
 import { CacheModule } from '@nestjs/cache-manager';
+import { HttpModule } from '@nestjs/axios';
 
 @Module({
   imports: [
@@ -14,6 +15,7 @@ import { CacheModule } from '@nestjs/cache-manager';
       },
     ]),
     CacheModule.register(),
+    HttpModule,
   ],
   controllers: [CatsController],
   providers: [CatsService],

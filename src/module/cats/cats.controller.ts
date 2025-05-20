@@ -1,6 +1,6 @@
 import { Body, Controller, Get, Post } from '@nestjs/common';
-import { CreateCatDto } from './create-cat.dto';
 import { CatsService } from './cats.service';
+import { CreateCatDto } from './create-cat.dto';
 
 @Controller('cats')
 export class CatsController {
@@ -13,6 +13,11 @@ export class CatsController {
 
   @Get()
   async findAll() {
-    return await this.catsService.findAll();
+    return await this.catsService.findAll1();
+  }
+
+  @Get('/findAll2')
+  findAll2() {
+    return this.catsService.findAll2();
   }
 }
