@@ -3,16 +3,15 @@ import { HttpAdapterHost } from '@nestjs/core';
 import rateLimit from 'express-rate-limit';
 import helmet from 'helmet';
 import { WINSTON_MODULE_NEST_PROVIDER } from 'nest-winston';
-import { Logger } from 'winston';
 import { AllExceptionFilter } from './filters/all-exception.filter';
 
 export const setupApp = (app: INestApplication) => {
-  app.useLogger(app.get(WINSTON_MODULE_NEST_PROVIDER));
+  const logger = app.get(WINSTON_MODULE_NEST_PROVIDER);
+  app.useLogger(logger);
   app.setGlobalPrefix('api/v1');
 
   const httpAdapter = app.get(HttpAdapterHost);
   // 全局的 Filter 只能有一个
-  const logger = new Logger();
   app.useGlobalFilters(new AllExceptionFilter(logger, httpAdapter));
 
   // 全局拦截器

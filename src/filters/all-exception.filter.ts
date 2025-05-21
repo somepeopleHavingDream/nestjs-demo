@@ -45,8 +45,8 @@ export class AllExceptionFilter implements ExceptionFilter {
       error: msg,
     };
 
-    // this.logger.error('[yx]', responseBody);
-    console.error('[yx]', responseBody);
+    this.logger.error('[yx]', responseBody);
+    // console.error('[yx]', responseBody);
     httpAdapter.reply(response, responseBody, httpStatus);
   }
 }

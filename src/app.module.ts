@@ -3,7 +3,7 @@ import { ConfigModule } from '@nestjs/config';
 import { MongooseModule } from '@nestjs/mongoose';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import * as dotenv from 'dotenv';
-import * as Joi from 'joi';
+import Joi from 'joi';
 import { connectionParams } from 'ormconfig';
 import { AuthModule } from './module/auth/auth.module';
 import { CatsModule } from './module/cats/cats.module';
