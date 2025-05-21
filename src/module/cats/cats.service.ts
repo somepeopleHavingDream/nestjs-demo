@@ -2,10 +2,10 @@ import { HttpService } from '@nestjs/axios';
 import { CACHE_MANAGER } from '@nestjs/cache-manager';
 import { Inject, Injectable } from '@nestjs/common';
 import { InjectModel } from '@nestjs/mongoose';
-import { AxiosResponse } from 'axios';
+import { AxiosError } from 'axios';
 import { Cache } from 'cache-manager';
 import { Model } from 'mongoose';
-import { Observable } from 'rxjs';
+import { catchError, firstValueFrom } from 'rxjs';
 import { Cat } from './cat.schema';
 import { CreateCatDto } from './create-cat.dto';
 
@@ -32,13 +32,22 @@ export class CatsService {
       return cachedValue;
     }
 
-    const result = this.catModel.find().exec();
+    const result = await this.catModel.find().exec();
 
     await this.cacheManager.set(CatsService.CACHE_KEY, result, 5000);
     return result;
   }
 
-  findAll2(): Observable<AxiosResponse<Cat[]>> {
-    return this.httpService.get<Cat[]>('http://localhost:3000/cats');
+  async findAll2(): Promise<Cat[]> {
+    const { data } = await firstValueFrom(
+      this.httpService.get<Cat[]>('http://localhost:3000/api/v1/cats').pipe(
+        catchError((error: AxiosError) => {
+          console.error(error);
+          throw error;
+        }),
+      ),
+    );
+
+    return data;
   }
 }

@@ -51,7 +51,8 @@ const envFilePath =
     RolesModule,
     MenusModule,
     MongooseModule.forRoot(
-      'mongodb://root:123456@localhost:27017/nest?authSource=admin',
+      'mongodb://admin:123456@localhost:27017/nest?authSource=admin',
+      // 'mongodb://root:123456@localhost:27017/nest?authSource=admin',
     ),
     CatsModule,
     ScheduleModule.forRoot(),

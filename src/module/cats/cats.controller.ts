@@ -17,7 +17,7 @@ export class CatsController {
   }
 
   @Get('/findAll2')
-  findAll2() {
-    return this.catsService.findAll2();
+  async findAll2() {
+    return await this.catsService.findAll2();
   }
 }
