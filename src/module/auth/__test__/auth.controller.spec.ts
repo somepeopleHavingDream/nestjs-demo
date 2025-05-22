@@ -2,7 +2,7 @@ import { Test, TestingModule } from '@nestjs/testing';
 import { User } from 'src/module/user/user.entity';
 import { AuthController } from '../auth.controller';
 import { AuthService } from '../auth.service';
-import { SigninUserDto } from '../dto/signin-user.dto';
+import { SigninUserDto } from '../signin-user.dto';
 
 describe('AuthController（登录认证模块）', () => {
   let controller: AuthController;

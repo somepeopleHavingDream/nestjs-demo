@@ -9,7 +9,7 @@ import {
 } from '@nestjs/common';
 import { TypeormFilter } from 'src/filters/typeorm.filter';
 import { AuthService } from './auth.service';
-import { SigninUserDto } from './dto/signin-user.dto';
+import { SigninUserDto } from './signin-user.dto';
 
 @Controller('auth')
 @UseFilters(new TypeormFilter())

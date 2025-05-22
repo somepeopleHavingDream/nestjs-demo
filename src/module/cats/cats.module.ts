@@ -5,6 +5,7 @@ import { MongooseModule } from '@nestjs/mongoose';
 import { Cat, CatSchema } from './cat.schema';
 import { CatsController } from './cats.controller';
 import { CatsService } from './cats.service';
+import { CaslModule } from '../casl/casl.module';
 
 @Module({
   imports: [
@@ -16,6 +17,7 @@ import { CatsService } from './cats.service';
     ]),
     CacheModule.register(),
     HttpModule,
+    CaslModule,
   ],
   controllers: [CatsController],
   providers: [CatsService],

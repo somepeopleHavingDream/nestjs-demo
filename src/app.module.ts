@@ -13,6 +13,7 @@ import { RolesModule } from './module/roles/roles.module';
 import { UserModule } from './module/user/user.module';
 import { ScheduleModule } from '@nestjs/schedule';
 import { TasksModule } from './module/tasks/tasks.module';
+import { CaslModule } from './module/casl/casl.module';
 
 const envFilePath =
   process.env.NODE_ENV === 'production'
@@ -57,6 +58,7 @@ const envFilePath =
     CatsModule,
     ScheduleModule.forRoot(),
     TasksModule,
+    CaslModule,
   ],
   controllers: [],
   providers: [Logger],
